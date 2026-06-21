@@ -1,27 +1,36 @@
+"""
+database.py — Async SQLAlchemy engine and session factory.
+
+DATABASE_URL is loaded from the .env file — never hardcoded.
+"""
 from sqlalchemy.ext.asyncio import (
-    create_async_engine,
     AsyncSession,
+    create_async_engine,
     async_sessionmaker,
 )
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 
-DATABASE_URL = (
-    "postgresql+asyncpg://postgres:12345678@localhost/instagram_db"
-)
+from config import settings
 
 engine = create_async_engine(
-    DATABASE_URL,
+    settings.DATABASE_URL,
     echo=True,
+    future=True,
 )
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
     class_=AsyncSession,
     expire_on_commit=False,
+    autoflush=False,
 )
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
+
 
 async def get_db():
-    async with AsyncSessionLocal() as db:
-        yield db
+    """FastAPI dependency that yields an async database session."""
+    async with AsyncSessionLocal() as session:
+        yield session

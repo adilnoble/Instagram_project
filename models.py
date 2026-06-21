@@ -13,6 +13,8 @@ from sqlalchemy.orm import relationship
 
 from database import Base
 
+BigIntegerID = BigInteger().with_variant(Integer, 'sqlite')
+
 
 # ==================================
 # USERS
@@ -22,7 +24,7 @@ class User(Base):
     __tablename__ = "users"
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
@@ -73,7 +75,7 @@ class Role(Base):
     __tablename__ = "roles"
 
     role_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
@@ -100,13 +102,13 @@ class UserRole(Base):
     __tablename__ = "user_roles"
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
 
     role_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("roles.role_id"),
         primary_key=True
     )
@@ -132,13 +134,13 @@ class Profile(Base):
     __tablename__ = "profiles"
 
     profile_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         unique=True
     )
@@ -183,7 +185,7 @@ class ProfileStats(Base):
     __tablename__ = "profile_stats"
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
@@ -220,13 +222,13 @@ class Follow(Base):
     __tablename__ = "follows"
 
     follower_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
 
     following_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
@@ -240,13 +242,13 @@ class Post(Base):
     __tablename__ = "posts"
 
     post_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -266,13 +268,13 @@ class PostLike(Base):
     __tablename__ = "post_likes"
 
     post_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("posts.post_id"),
         primary_key=True
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
@@ -287,18 +289,18 @@ class PostComment(Base):
     __tablename__ = "post_comments"
 
     comment_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     post_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("posts.post_id")
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -314,18 +316,18 @@ class CommentReply(Base):
     __tablename__ = "comment_replies"
 
     reply_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     comment_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("post_comments.comment_id")
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -341,13 +343,13 @@ class Reel(Base):
     __tablename__ = "reels"
 
     reel_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -365,13 +367,13 @@ class ReelLike(Base):
     __tablename__ = "reel_likes"
 
     reel_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("reels.reel_id"),
         primary_key=True
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
@@ -386,18 +388,18 @@ class ReelComment(Base):
     __tablename__ = "reel_comments"
 
     reel_comment_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     reel_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("reels.reel_id")
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -411,18 +413,18 @@ class ReelCommentReply(Base):
     __tablename__ = "reel_comment_replies"
 
     reply_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     reel_comment_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("reel_comments.reel_comment_id")
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -436,13 +438,13 @@ class Story(Base):
     __tablename__ = "stories"
 
     story_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     user_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -458,13 +460,13 @@ class Message(Base):
     __tablename__ = "messages"
 
     message_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     sender_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -484,13 +486,13 @@ class StoryView(Base):
     __tablename__ = "story_views"
 
     story_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("stories.story_id"),
         primary_key=True
     )
 
     viewer_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id"),
         primary_key=True
     )
@@ -505,18 +507,18 @@ class Notification(Base):
     __tablename__ = "notifications"
 
     notification_id = Column(
-        BigInteger,
+        BigIntegerID,
         primary_key=True,
         autoincrement=True
     )
 
     receiver_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
     actor_id = Column(
-        BigInteger,
+        BigIntegerID,
         ForeignKey("users.user_id")
     )
 
@@ -525,7 +527,7 @@ class Notification(Base):
     )
 
     reference_id = Column(
-        BigInteger
+        BigIntegerID
     )
 
     is_read = Column(
